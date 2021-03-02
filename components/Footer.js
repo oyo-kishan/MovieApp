@@ -1,11 +1,17 @@
 import React from 'react';
 import {View,StyleSheet,Image,Text, TouchableOpacity} from 'react-native';
 
-const Footer=()=>{
+const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1';
+const nowPlaying="https://api.themoviedb.org/3/movie/now_playing?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1";
+
+const Footer=({navigation})=>{
     return (
         <View style={styles.rootView}>
 
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Detail',{
+                title : 'Now Playing',
+                url : nowPlaying
+            })}>
                 <View style={styles.container}>
                     <Image
                         source={require('../images/play.png')}
@@ -15,7 +21,10 @@ const Footer=()=>{
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Detail',{
+                title : 'Top Rated',
+                url : topRatedMovieUrl
+            })}>
                 <View style={styles.container}>
                     <Image
                         source={require('../images/trending.png')}
@@ -25,7 +34,11 @@ const Footer=()=>{
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=>{}}>
+
+            <TouchableOpacity onPress={()=>navigation.navigate('Detail',{
+                title :'Upcoming',
+                url : topRatedMovieUrl
+            })}>
                 <View style={styles.container}>
                     <Image
                         source={require('../images/upcoming.png')}

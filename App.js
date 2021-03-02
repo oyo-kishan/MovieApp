@@ -1,9 +1,9 @@
 import React from 'react';
-import {View,Text} from 'react-native';
 import { NavigationContainer  ,DarkTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets, TransitionSpecs } from '@react-navigation/stack';
 
 import Home from './screens/Home';
+import Detail from './screens/Detail';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +14,20 @@ const App=()=>{
                <Stack.Screen 
                   name="Home" 
                   component={Home}  
-                  options={{ title: 'Movies' }}
+                  options={{
+                    title:'Movies',
+                    transitionSpec:{
+                      open :TransitionSpecs.FadeInFromBottomAndroidSpec,
+                      close :TransitionSpecs.FadeInFromBottomAndroidSpec
+                    }
+                  }}
+                  />
+                <Stack.Screen 
+                  name="Detail" 
+                  component={Detail}  
+                  options={{
+                   ...TransitionPresets.RevealFromBottomAndroid
+                  }}
                   />
             </Stack.Navigator>
         </NavigationContainer>

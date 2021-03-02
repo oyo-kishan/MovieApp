@@ -10,7 +10,7 @@ const popularMovieUrl='https://api.themoviedb.org/3/movie/popular?api_key=71298c
 const imagePathUrl="https://image.tmdb.org/t/p/w500";
 
 
-const Home=()=>{
+const Home=({navigation})=>{
 
     const firstFlatList=useRef();
     const [topListData,setTopListData]=useState([]);
@@ -83,7 +83,10 @@ const Home=()=>{
 
                 <View style={styles.secondFlatListHeader}>
                     <Text style={styles.popularText}>Popular</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>navigation.navigate('Detail',{
+                        title : 'Popular',
+                        url : popularMovieUrl
+                    })}>
                          <Text style={styles.seeAllText}>See all</Text>
                     </TouchableOpacity>
                 </View>
@@ -96,7 +99,9 @@ const Home=()=>{
                    keyExtractor={(item)=>item.id.toString()}
                    renderItem={({item})=><PopularMovieCard data={item}/>}
                 />  
-                <Footer/>              
+                <Footer
+                   navigation={navigation}
+                />              
 
             </View>
         </ScrollView>
