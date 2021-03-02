@@ -1,5 +1,6 @@
 import React ,{useState,useEffect,useRef, useReducer}from 'react';
 import {View,Text,StyleSheet, FlatList,ScrollView, Dimensions, TouchableOpacity, requireNativeComponent} from 'react-native';
+import Footer from '../components/Footer';
 import MovieCarouselCard from '../components/MovieCarouselCard';
 import PopularMovieCard from '../components/PopularMovieCard';
 
@@ -94,7 +95,8 @@ const Home=()=>{
                    data={secondListData}
                    keyExtractor={(item)=>item.id.toString()}
                    renderItem={({item})=><PopularMovieCard data={item}/>}
-                />                
+                />  
+                <Footer/>              
 
             </View>
         </ScrollView>
