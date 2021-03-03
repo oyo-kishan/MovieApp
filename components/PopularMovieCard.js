@@ -5,9 +5,9 @@ const windowWidth=Dimensions.get('window').width;
 const windowHeight=Dimensions.get('window').height;
 
 
-const PopularMovieCard=({data})=>{
+const PopularMovieCard=({data,navigation})=>{
     return (
-        <TouchableOpacity onPress={()=>{}}>
+        <TouchableOpacity onPress={()=>{navigation.navigate('Info',{id:data.id})}}>
               <View style={styles.rootView}>
                 <Image
                     source={{uri : data.backgroundImage}}

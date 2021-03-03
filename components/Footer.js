@@ -1,8 +1,8 @@
 import React from 'react';
 import {View,StyleSheet,Image,Text, TouchableOpacity} from 'react-native';
 
-const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1';
-const nowPlaying="https://api.themoviedb.org/3/movie/now_playing?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1";
+const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=';
+const nowPlaying="https://api.themoviedb.org/3/movie/now_playing?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=";
 
 const Footer=({navigation})=>{
     return (

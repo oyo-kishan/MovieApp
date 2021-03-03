@@ -9,12 +9,16 @@ const axios = require('axios');
 const Detail=({navigation,route})=>{
     const url=route.params.url;
     const [data,setData]=useState([]);
+    const [page,setPage]=useState(1);
 
     useEffect(()=>{
         navigation.setOptions({title : route?.params?.title})
-        axios.get(url).then((response)=>{
+        let turl=url.concat(page);
+        
+        axios.get(turl).then((response)=>{
             const fetchedData=response.data.results;
-            const list=[];
+            const list=[...data];
+            
             for(let i=0;i<fetchedData.length;i++){
                 const requiredData={
                     id : fetchedData[i].id,
@@ -28,7 +32,7 @@ const Detail=({navigation,route})=>{
             }
             setData(list);
         })
-    },[]);
+    },[page]);
 
 
     
@@ -37,8 +41,11 @@ const Detail=({navigation,route})=>{
         <View style={styles.root}>
             <FlatList
                data={data}
+               onEndReachedThreshold={0.5}
+               progressViewOffset={10}
+               onEndReached={()=>setPage(page=>page+1)}
                keyExtractor={(item)=>item.id.toString()}
-               renderItem={({item,index})=><DetailCard item={item}/>}
+               renderItem={({item})=><DetailCard item={item}/>}
             />
         </View>
     )

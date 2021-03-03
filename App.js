@@ -4,29 +4,47 @@ import { createStackNavigator, TransitionPresets, TransitionSpecs } from '@react
 
 import Home from './screens/Home';
 import Detail from './screens/Detail';
+import { StatusBar } from 'react-native';
+import Info from './screens/Info';
 
 const Stack = createStackNavigator();
 
 const App=()=>{
   return (
         <NavigationContainer theme={DarkTheme}>
+
+          <StatusBar backgroundColor="#000000"/>
+
             <Stack.Navigator initialRouteName="Home" header={null}>
+
                <Stack.Screen 
                   name="Home" 
                   component={Home}  
                   options={{
                     title:'Movies',
-                    transitionSpec:{
-                      open :TransitionSpecs.FadeInFromBottomAndroidSpec,
-                      close :TransitionSpecs.FadeInFromBottomAndroidSpec
+                    headerStyle:{ backgroundColor:'#000000'},
+                    headerTitleStyle:{
+                      fontWeight:'bold'
                     }
-                  }}
+                    }}
                   />
                 <Stack.Screen 
                   name="Detail" 
                   component={Detail}  
                   options={{
-                   ...TransitionPresets.RevealFromBottomAndroid
+                   ...TransitionPresets.RevealFromBottomAndroid,
+                   headerStyle:{ backgroundColor:'#000000'},
+                  headerTitleStyle:{
+                    fontWeight:'bold'
+                  }
+                  }}
+                />
+                <Stack.Screen 
+                  name="Info" 
+                  component={Info}  
+                  options={{
+                   ...TransitionPresets.RevealFromBottomAndroid,
+                   headerShown:false
                   }}
                   />
             </Stack.Navigator>

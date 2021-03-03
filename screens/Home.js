@@ -1,12 +1,12 @@
-import React ,{useState,useEffect,useRef, useReducer}from 'react';
+import React ,{useState,useEffect,useRef}from 'react';
 import {View,Text,StyleSheet, FlatList,ScrollView, Dimensions, TouchableOpacity, requireNativeComponent} from 'react-native';
 import Footer from '../components/Footer';
 import MovieCarouselCard from '../components/MovieCarouselCard';
 import PopularMovieCard from '../components/PopularMovieCard';
 
 const axios = require('axios');
-const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1';
-const popularMovieUrl='https://api.themoviedb.org/3/movie/popular?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=1';
+const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=';
+const popularMovieUrl='https://api.themoviedb.org/3/movie/popular?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=';
 const imagePathUrl="https://image.tmdb.org/t/p/w500";
 
 
@@ -16,8 +16,10 @@ const Home=({navigation})=>{
     const [topListData,setTopListData]=useState([]);
     const [secondListData,setSecondListData]=useState([]);
 
+
     useEffect(()=>{
-        axios.get(topRatedMovieUrl).then((response)=>{
+        let url=topRatedMovieUrl.concat("1");
+        axios.get(url).then((response)=>{
             const fetchedData=response.data.results;
             const list=[];
             for(let i=0;i<fetchedData.length;i++){
@@ -34,8 +36,11 @@ const Home=({navigation})=>{
             setTopListData(list);
             makeFlatListScollable(list.length);
         })
+        
 
-        axios.get(popularMovieUrl).then((response)=>{
+        let turl=popularMovieUrl.concat("1");
+
+        axios.get(turl).then((response)=>{
             const fetchedData=response.data.results;
             const list=[];
             for(let i=0;i<fetchedData.length;i++){
@@ -63,10 +68,6 @@ const Home=({navigation})=>{
     }
 
 
-
-
-
-
     return (
         <ScrollView style ={{flex : 1}}> 
             <View style={styles.rootView}>
@@ -78,7 +79,11 @@ const Home=({navigation})=>{
                     showsHorizontalScrollIndicator={false}
                     data={topListData}
                     keyExtractor={(item)=>item.id.toString()}
-                    renderItem={({item,index})=><MovieCarouselCard data={item} index={index}/>}
+                    renderItem={({item,index})=><MovieCarouselCard 
+                                                    data={item} 
+                                                    index={index}
+                                                    navigation={navigation}
+                                                    />}
                 />
 
                 <View style={styles.secondFlatListHeader}>
@@ -97,7 +102,7 @@ const Home=({navigation})=>{
                    showsHorizontalScrollIndicator={false}
                    data={secondListData}
                    keyExtractor={(item)=>item.id.toString()}
-                   renderItem={({item})=><PopularMovieCard data={item}/>}
+                   renderItem={({item})=><PopularMovieCard navigation={navigation} data={item}/>}
                 />  
                 <Footer
                    navigation={navigation}

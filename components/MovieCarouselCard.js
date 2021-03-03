@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get('window').height;
 
 
 
-const MovieCarouselCard=({data})=>{
+const MovieCarouselCard=({data,navigation})=>{
     
     return (
         <ImageBackground style={[styles.imageBackground]} source= {{uri : data.foregroundImage}}>
@@ -45,7 +45,7 @@ const MovieCarouselCard=({data})=>{
                         {data.description}
                     </Text>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>navigation.navigate('Info',{id  :data.id})}>
                         <View style={styles.button}>
                             <Text style={styles.buttonTitle}>View Details</Text>
                         </View>
