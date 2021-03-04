@@ -9,12 +9,14 @@ const topRatedMovieUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=712
 const popularMovieUrl='https://api.themoviedb.org/3/movie/popular?api_key=71298cd73892fc9acb385b50a59e4124&language=en-US&page=';
 const imagePathUrl="https://image.tmdb.org/t/p/w500";
 
+const windowWidth=Dimensions.get('window').width;
 
 const Home=({navigation})=>{
 
     const firstFlatList=useRef();
     const [topListData,setTopListData]=useState([]);
     const [secondListData,setSecondListData]=useState([]);
+    let currentIndex=useRef(0);
 
 
     useEffect(()=>{
@@ -58,14 +60,18 @@ const Home=({navigation})=>{
 
 
     const makeFlatListScollable=(len)=>{
-        let scrolled=0;
         setInterval(()=>{
-            scrolled=(scrolled+1)%len;
-            if(firstFlatList.current){
-                firstFlatList.current.scrollToIndex({ animated: true, index: scrolled})
-            }
+           firstFlatList.current?.scrollToIndex({ animated: true, index: (currentIndex.current+1)%len})
+           currentIndex.current=(currentIndex.current+1)%len;
         },4000);
     }
+
+
+    const handleScroll=(x)=>{
+        let index=Math.floor(x/windowWidth);
+        currentIndex.current=index
+    }
+
 
 
     return (
@@ -73,6 +79,8 @@ const Home=({navigation})=>{
             <View style={styles.rootView}>
 
                 <FlatList
+                    onScroll={(e)=>{handleScroll(e.nativeEvent.contentOffset.x)}}
+                    scrollEventThrottle={100}
                     ref={firstFlatList}
                     horizontal
                     pagingEnabled
