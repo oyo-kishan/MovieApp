@@ -1,5 +1,5 @@
 import React ,{useEffect,useState}from'react';
-import {View,StyleSheet,FlatList} from 'react-native';
+import {View,StyleSheet,FlatList, ActivityIndicator} from 'react-native';
 import DetailCard from '../components/DetailCard';
 
 const imagePathUrl="https://image.tmdb.org/t/p/w500";
@@ -10,11 +10,20 @@ const Detail=({navigation,route})=>{
     const url=route.params.url;
     const [data,setData]=useState([]);
     const [page,setPage]=useState(1);
+    const [loading,setLoading]=useState(true);
+
 
     useEffect(()=>{
         navigation.setOptions({title : route?.params?.title})
-        let turl=url.concat(page);
-        
+        loadData(1);
+    },[]);
+
+    const loadData=(pageNo)=>{
+        if(loading)return ;
+        setLoading(true);
+        setPage(pageNo);
+        let turl=url.concat(pageNo);
+
         axios.get(turl).then((response)=>{
             const fetchedData=response.data.results;
             const list=[...data];
@@ -31,21 +40,27 @@ const Detail=({navigation,route})=>{
                 list.push(requiredData);
             }
             setData(list);
-        })
-    },[page]);
+            setLoading(false);
+    })
+}
 
-
-    
+    const footerComponent=()=>{
+        return loading?
+        <View style={{width:'100%',height:60,justifyContent:'center', alignItems:'center'}}>
+            <ActivityIndicator style={{flex : 1}} size="large" color="#d11521"/>
+        </View>
+        :null;
+    }
 
     return (
         <View style={styles.root}>
             <FlatList
                data={data}
+               ListFooterComponent={footerComponent}
                onEndReachedThreshold={0.5}
-               progressViewOffset={10}
-               onEndReached={()=>setPage(page=>page+1)}
+               onEndReached={()=>loadData(page+1)}
                keyExtractor={(item)=>item.id.toString()}
-               renderItem={({item})=><DetailCard item={item}/>}
+               renderItem={({item})=><DetailCard navigation={navigation} item={item}/>}
             />
         </View>
     )

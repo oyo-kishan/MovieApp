@@ -1,5 +1,15 @@
 import React ,{useState,useEffect,useRef}from 'react';
-import {View,Text,StyleSheet, FlatList,ScrollView, Dimensions, TouchableOpacity, requireNativeComponent} from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet, 
+    FlatList,
+    ScrollView, 
+    Dimensions, 
+    TouchableOpacity,
+    ActivityIndicator
+  } from 'react-native';
+  
 import Footer from '../components/Footer';
 import MovieCarouselCard from '../components/MovieCarouselCard';
 import PopularMovieCard from '../components/PopularMovieCard';
@@ -16,6 +26,9 @@ const Home=({navigation})=>{
     const firstFlatList=useRef();
     const [topListData,setTopListData]=useState([]);
     const [secondListData,setSecondListData]=useState([]);
+    const [isFirstListDataLoaded,setFirstListDataLoaded]=useState(false);
+    const [isSecondListDataLoaded,setSecondListDataLoaded]=useState(false);
+
     let currentIndex=useRef(0);
 
 
@@ -36,6 +49,7 @@ const Home=({navigation})=>{
                 list.push(requiredData);
             }
             setTopListData(list);
+            setFirstListDataLoaded(true);
             makeFlatListScollable(list.length);
         })
         
@@ -54,6 +68,7 @@ const Home=({navigation})=>{
                 list.push(requiredData);
             }
             setSecondListData(list);
+            setSecondListDataLoaded(true);
         })
 
     },[]);
@@ -72,7 +87,13 @@ const Home=({navigation})=>{
         currentIndex.current=index
     }
 
-
+    if(!(isFirstListDataLoaded && isSecondListDataLoaded)){
+        return(  
+                <View style={{flex:1,justifyContent:'center', alignItems:'center'}}>
+                    <ActivityIndicator style={{flex : 1}} size="large" color="#d11521"/>
+                </View>
+        )
+    }
 
     return (
         <ScrollView style ={{flex : 1}}> 

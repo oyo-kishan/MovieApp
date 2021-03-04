@@ -11,10 +11,11 @@ import {
 const windowHeight=Dimensions.get('window').height;
 
 
+const DetailCard=({item,navigation})=>{
 
-const DetailCard=({item})=>{
+
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('Info',{id  :item.id})}>
              <View style={styles.root}>
 
                 <Image
